@@ -12,6 +12,6 @@ conectarDB();
 const PORT = process.env.PORT || 4000
 
 app.listen(PORT, ()=> {
-    console.log("Servidor Corriendo desde el puerto 4000");
+    console.log(`Servidor Corriendo desde el puerto ${PORT}`);
 })
 
