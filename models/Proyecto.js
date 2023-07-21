@@ -1,55 +1,48 @@
-import mongoose, { mongo } from "mongoose"
+import mongoose from "mongoose"
 
 const proyectoSchema = mongoose.Schema({
-    nombre: {
-        trype: String,
+    nombre:{
+        type: String,
         trim: true,
         required: true
     },
     descripcion: {
-        trype: String,
+        type: String,
         trim: true,
         required: true
     },
     fechaInicio: {
-        trype: Date,
-        required: true,
+        type: Date,
         default: Date.now()
     },
     fechaEntrega: {
-        trype: Date,
-        required: true,
+        type: Date,
         default: Date.now()
     },
-
     cliente: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario',
     },
-
     lider: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario',
     },
-
-    tareas: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Tarea',
-        }
-    ],
     estado: {
         type: String,
         required: true,
-        enum: ["Finalizado", "Progreso", "Retrado"]
+        enum: ["Finalizado", "Progreso", "Retrasado"],
     },
+    tareas: [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref: 'Tarea'
+        }
+    ],
     carpetaProyecto: {
-        trype: String,
-        trim: true
+        type: String,
+        required: true,
+        trim: true,
     }
-},
-{
-    timestamps: true
 });
 
 const Proyecto = mongoose.model('Proyecto', proyectoSchema);

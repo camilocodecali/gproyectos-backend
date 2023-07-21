@@ -2,29 +2,33 @@ import mongoose from "mongoose";
 
 const tareaSchema = mongoose.Schema({
     nombre: {
-        trype: String,
+        type: String,
         trim: true,
         required: true
     },
     descripcion: {
-        trype: String,
+        type: String,
         trim: true,
         required: true
     },
     fechaInicio: {
-        trype: Date,
+        type: Date,
         required: true,
         default: Date.now()
     },
     fechaEntrega: {
-        trype: Date,
+        type: Date,
         required: true,
         default: Date.now()
     },
     estado: {
         type: String,
         required: true,
-        enum: ["Finalizado", "Progreso", "Retrado"]
+        enum: ["Finalizado", "Progreso", "Retrasado"]
+    },
+    proyecto: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Proyecto',
     },
     colaboradores: [
         {
@@ -33,7 +37,7 @@ const tareaSchema = mongoose.Schema({
         }
     ],
     linkRecursos: {
-        trype: String,
+        type: String,
         trim: true,
     }
 },
