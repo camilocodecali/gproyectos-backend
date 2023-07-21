@@ -25,6 +25,26 @@ const registrar = async  (req, res) => {
 
 };
 
+//Confirmar Cuenta
+const confirmar = async (req, res) => {
+    const { token } = req.params
+    const usuarioConfirmar = await Usuario.findOne({token})
+
+    if(!usuarioConfirmar){
+        const error = new Error('Token no válido');
+        return res.status(403).json({msg: error.message})
+    }
+    
+    try {
+        usuarioConfirmar.confirmado = true;
+        usuarioConfirmar.token = " ";
+        await usuarioConfirmar.save()
+        res.json({msg: "Usuario Confirmado Correctamente"})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 //Autenticar Usuario
 const autenticar = async (req, res) => {
     const { email, password } = req.body
@@ -56,28 +76,69 @@ const autenticar = async (req, res) => {
     }
 }
 
-//Confirmar Cuenta
-const confirmar = async (req, res) => {
-    const { token } = req.params
-    const usuarioConfirmar = await Usuario.findOne({token})
-
-    if(!usuarioConfirmar){
-        const error = new Error('Token no válido');
+//Olvida contraseña correo
+const olvidePassword = async (req, res) => {
+    const { email } = req.body;
+    //Comprobar si el usuario existe
+    const usuario = await Usuario.findOne({email})
+    if(!usuario){
+        const error = new Error('El usuario no existe');
         return res.status(403).json({msg: error.message})
     }
-    
     try {
-        usuarioConfirmar.confirmado = true;
-        usuarioConfirmar.token = " ";
-        await usuarioConfirmar.save()
-        res.json({msg: "Usuario Confirmado Correctamente"})
+        usuario.token = generarId();
+        await usuario.save();
     } catch (error) {
         console.log(error);
     }
 }
 
+// Comprobar Token para cambiar contraseña
+const comprobarToken = async (req, res) => {
+    const { token } = req.params
+    const tokenValido = await Usuario.findOne({token})
+    if(tokenValido){
+        res.json({msg:"Token valido y el usuario existe"})
+    }else{
+        const error = new Error('Token no valido');
+        return res.status(404).json({msg: error.message})
+    }
+}
+
+//Nueva contraseña
+const nuevoPassword = async (req, res) => {
+    const { token } = req.params
+    const { password }= req.body
+    const usuario = await Usuario.findOne({token})
+
+    if(usuario){
+        usuario.password = password;
+        usuario.token= "";
+        try {
+            await usuario.save();
+            res.json({msg:"Password Modificado Correctamente"})
+        } catch (error) {
+            console.log(error);
+        }
+    }else{
+        const error = new Error('Token no valido');
+        return res.status(404).json({msg: error.message})
+    }
+}
+
+//Obtener prefil de sesion
+const perfil = async (req, res) => {
+    const { usuario } = req;
+    res.json(usuario)
+}
+
+
 export {
     registrar,
     autenticar,
-    confirmar
+    confirmar,
+    olvidePassword,
+    comprobarToken,
+    nuevoPassword,
+    perfil
 };
