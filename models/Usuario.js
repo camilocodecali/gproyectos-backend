@@ -27,11 +27,10 @@ const usuarioSchema = mongoose.Schema(
     cargo: {
       type: String,
       required: true,
-      enum: ["Lider", "Colaborador", "Admin"],
+      enum: ["Lider", "Colaborador", "Admin", "Cliente"],
     },
     fechaIngreso: {
       type: Date,
-      required: true,
       default: Date.now(),
     },
     identificacion: {
@@ -39,9 +38,21 @@ const usuarioSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+
+    personaContacto:{
+      type: String,
+      trim: true,
+    },
+
+    notaCliente: {
+      type: String,
+      trim: true,
+    },
+
     token: {
       type: String,
     },
+    
     confirmado: {
       type: Boolean,
       default: false,
