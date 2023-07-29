@@ -3,14 +3,14 @@ import Tarea from "../models/Tarea.js";
 
 //Obtener Proyectos
 const obtenerProyectos = async (req,res) => {
-    const proyectos = await Proyecto.find();
+    const proyectos = await Proyecto.find().populate('lider', 'nombre email');
 
     res.json(proyectos)
 }
 
 //Obtener Proyectos por usuario
 const obtenerProyectosUsuario = async (req,res) => {
-    const proyectos = await Proyecto.find().where('lider').equals(req.usuario)
+    const proyectos = await Proyecto.find().where('lider').equals(req.usuario).populate('lider', 'nombre email');
 
     res.json(proyectos)
 }
