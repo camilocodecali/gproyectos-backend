@@ -11,6 +11,11 @@ const proyectoSchema = mongoose.Schema({
         trim: true,
         required: true
     },
+    categoria: {
+        type: String,
+        required: true,
+        enum: ["Web", "Diseño", "Redes Sociales"],
+    },
     fechaInicio: {
         type: Date,
         default: Date.now()
