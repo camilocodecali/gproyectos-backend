@@ -37,10 +37,7 @@ const obtenerProyecto = async (req,res) => {
         return res.status(404).json({msg: error.message});
     }
 
-    if(proyecto.lider.toString() !== req.usuario._id.toString()){
-        const error = new Error("Accion no valida")
-        return res.status(401).json({msg: error.message});
-    }
+
 
 
 
