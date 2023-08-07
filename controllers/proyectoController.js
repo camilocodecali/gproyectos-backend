@@ -14,7 +14,8 @@ const obtenerProyectos = async (req,res) => {
 
 //Obtener Proyectos por usuario
 const obtenerProyectosUsuario = async (req,res) => {
-    const proyectos = await Proyecto.find().where('lider').equals(req.usuario).select('-tareas').populate('lider', 'nombre email');
+    const proyectos = await Proyecto.find().where('lider').equals(req.usuario).select('-tareas').populate({path: 'lider'})
+    .populate("cliente", "nombre email");
 
     res.json(proyectos)
 }
@@ -35,7 +36,9 @@ const nuevoProyecto = async (req,res) => {
 const obtenerProyecto = async (req,res) => {
     const { id } = req.params;
 
-    const proyecto = await Proyecto.findById(id).populate('tareas');
+    const proyecto = await Proyecto.findById(id).populate({path: 'tareas'})
+    .populate("cliente", "nombre email");
+    
     if(!proyecto){
         const error = new Error("No encontrado")
         return res.status(404).json({msg: error.message});
