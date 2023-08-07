@@ -3,6 +3,23 @@ import generarId from "../helpers/generarId.js";
 import generarJWT from "../helpers/generarJWT.js";
 import { emailRegistro, emailOlvidePassword } from "../helpers/email.js";
 
+
+//Obtener usuarios Colaboradores
+const obtenerColaboradores = async (req, res) => {
+    const colaboradores = await Usuario.find().where('cargo').equals('Colaborador').select('-password -telefono -fechaIngreso -identificacion -confirmado -createdAt -updatedAt');
+    res.json(colaboradores)
+}
+
+const obtenerLideres = async (req, res) => {
+    const lideres = await Usuario.find().where('cargo').equals('Lider').select('-password -telefono -fechaIngreso -identificacion -confirmado -createdAt -updatedAt');
+    res.json(lideres)
+}
+
+const obtenerClientes = async (req, res) => {
+    const clientes = await Usuario.find().where('cargo').equals('Cliente').select('-password -telefono -fechaIngreso -identificacion -confirmado -createdAt -updatedAt');
+    res.json(clientes)
+}
+
 //Registrar Usuarios
 const registrar = async  (req, res) => {
 
@@ -158,5 +175,8 @@ export {
     olvidePassword,
     comprobarToken,
     nuevoPassword,
-    perfil
+    perfil,
+    obtenerColaboradores,
+    obtenerLideres,
+    obtenerClientes
 };
