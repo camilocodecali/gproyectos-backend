@@ -37,7 +37,7 @@ const obtenerProyecto = async (req,res) => {
     const { id } = req.params;
 
     const proyecto = await Proyecto.findById(id).populate({path: 'tareas'})
-    .populate("cliente", "nombre email");
+    .populate("cliente", "nombre email").populate('lider');
     
     if(!proyecto){
         const error = new Error("No encontrado")

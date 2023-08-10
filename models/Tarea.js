@@ -30,7 +30,7 @@ const tareaSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Proyecto',
     },
-    colaboradores: [
+    colaborador: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Usuario',
