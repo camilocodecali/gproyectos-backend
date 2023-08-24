@@ -16,7 +16,7 @@ const obtenerLideres = async (req, res) => {
 }
 
 const obtenerClientes = async (req, res) => {
-    const clientes = await Usuario.find().where('cargo').equals('Cliente').select('-password -telefono -fechaIngreso -identificacion -confirmado -createdAt -updatedAt');
+    const clientes = await Usuario.find().where('cargo').equals('Cliente').select('-password  -fechaIngreso  -confirmado -createdAt -updatedAt');
     res.json(clientes)
 }
 

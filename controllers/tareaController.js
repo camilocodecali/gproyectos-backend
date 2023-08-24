@@ -63,6 +63,7 @@ const actualizarTarea = async (req, res) => {
     tarea.nombre = req.body.nombre || tarea.nombre;
     tarea.descripcion = req.body.descripcion || tarea.descripcion;
     tarea.estado = req.body.estado || tarea.estado;
+    tarea.colaborador = req.body.colaborador || tarea.colaborador;
     tarea.fechaInicio = req.body.fechaInicio || tarea.fechaInicio;
     tarea.fechaEntrega = req.body.fechaEntrega || tarea.fechaEntrega;
 
