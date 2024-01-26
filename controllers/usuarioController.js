@@ -8,6 +8,13 @@ import { emailRegistro, emailOlvidePassword } from "../helpers/email.js";
 const obtenerColaboradores = async (req, res) => {
     const colaboradores = await Usuario.find().where('cargo').equals('Colaborador').select('-password -telefono -fechaIngreso -identificacion -confirmado -createdAt -updatedAt');
     res.json(colaboradores)
+    
+}
+
+const obtenerUsuariosApp = async (req, res) =>{
+    const usuariosApp = await Usuario.find({ $or: [{ cargo: 'Colaborador' }, { cargo: 'Lider' }] })
+    .select('-password -fechaIngreso -confirmado -createdAt -updatedAt');
+    res.json(usuariosApp)   
 }
 
 const obtenerLideres = async (req, res) => {
@@ -178,5 +185,6 @@ export {
     perfil,
     obtenerColaboradores,
     obtenerLideres,
-    obtenerClientes
+    obtenerClientes,
+    obtenerUsuariosApp
 };

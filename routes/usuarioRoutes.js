@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { registrar, autenticar, confirmar, olvidePassword, comprobarToken, nuevoPassword, perfil, obtenerColaboradores, obtenerLideres,
-    obtenerClientes } from "../controllers/usuarioController.js";
+    obtenerClientes, obtenerUsuariosApp } from "../controllers/usuarioController.js";
 
 import checkAuth from "../middleware/checkAuth.js";
 
@@ -9,6 +9,7 @@ import checkAuth from "../middleware/checkAuth.js";
 router.get('/colaboradores', obtenerColaboradores)
 router.get('/lideres', obtenerLideres)
 router.get('/clientes', obtenerClientes)
+router.get('/', obtenerUsuariosApp)
 router.post('/', registrar);
 router.post('/login', autenticar);
 router.get('/confirmar/:token', confirmar);
