@@ -174,6 +174,65 @@ const perfil = async (req, res) => {
     res.json(usuario)
 }
 
+//Obtener cliente por id
+const obtenerCliente = async (req, res) => {
+    const { id } = req.params;
+
+    const cliente = await Usuario.findById(id).select('-confirmado -password');
+
+    if(!cliente){
+        const error = new Error("No encontrado")
+        return res.status(404).json({msg: error.message});
+    }
+
+    res.json(cliente)
+}
+
+//Editar cliente
+const editarCliente = async (req, res) => {
+    const {id} = req.params;
+
+    const cliente = await Usuario.findById(id)
+    if(!cliente){
+        const error = new Error("No encontrado")
+        return res.status(404).json({msg: error.message});
+    }
+
+    cliente.nombre = req.body.nombre || cliente.nombre;
+    cliente.email = req.body.email || cliente.email;
+    cliente.telefono = req.body.telefono || cliente.telefono;
+    cliente.cargo = req.body.cargo || cliente.cargo;
+    cliente.fechaIngreso = req.body.fechaIngreso || cliente.fechaIngreso;
+    cliente.identificacion = req.body.identificacion || cliente.identificacion;
+    cliente.personaContacto = req.body.personaContacto || cliente.personaContacto;
+    cliente.notaCliente = req.body.notaCliente || cliente.notaCliente;
+    cliente.token = req.body.token || cliente.token;
+    cliente.confirmado = req.body.confirmado || cliente.confirmado;
+
+    try {
+        const clienteAlmacenado = await cliente.save();
+        res.json(clienteAlmacenado)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//Eliminar cliente
+const eliminarCliente = async (req, res) => {
+    const {id} = req.params;
+
+    const cliente = await Usuario.findById(id)
+    if(!cliente){
+        const error = new Error("No encontrado")
+        return res.status(404).json({msg: error.message});
+    }
+    try {
+        await cliente.deleteOne();
+        res.json({msg: "Cliente Eliminado"})
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export {
     registrar,
@@ -186,5 +245,8 @@ export {
     obtenerColaboradores,
     obtenerLideres,
     obtenerClientes,
-    obtenerUsuariosApp
+    obtenerUsuariosApp,
+    obtenerCliente,
+    editarCliente,
+    eliminarCliente
 };

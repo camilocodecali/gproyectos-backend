@@ -1,15 +1,19 @@
 import express from "express";
 const router = express.Router();
 import { registrar, autenticar, confirmar, olvidePassword, comprobarToken, nuevoPassword, perfil, obtenerColaboradores, obtenerLideres,
-    obtenerClientes, obtenerUsuariosApp } from "../controllers/usuarioController.js";
+    obtenerClientes, obtenerUsuariosApp, obtenerCliente, editarCliente, eliminarCliente } from "../controllers/usuarioController.js";
 
 import checkAuth from "../middleware/checkAuth.js";
 
 //Rutas Publicas - Autenticación, Registro y Confirmación de Usuarios
 router.get('/colaboradores', obtenerColaboradores)
 router.get('/lideres', obtenerLideres)
-router.get('/clientes', obtenerClientes)
-router.get('/', obtenerUsuariosApp)
+router.get('/clientes', checkAuth, obtenerClientes)
+router.route('/clientes/:id')
+        .get(checkAuth, obtenerCliente)
+        .put(checkAuth, editarCliente)
+        .delete(checkAuth, eliminarCliente)
+router.get('/', checkAuth, obtenerUsuariosApp)
 router.post('/', registrar);
 router.post('/login', autenticar);
 router.get('/confirmar/:token', confirmar);
