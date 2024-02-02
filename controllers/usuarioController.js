@@ -234,6 +234,18 @@ const eliminarCliente = async (req, res) => {
     }
 }
 
+//Obtener usuario por id
+const obtenerUsuarioApp = async (req, res) => {
+    const { id } = req.params;
+    
+    const usuarioApp = await Usuario.findById(id).select('-confirmado -password');;
+    if(!usuarioApp){
+        const error = new Error("No encontrado")
+        return res.status(404).json({msg: error.message})
+    }
+    res.json(usuarioApp)
+}
+
 export {
     registrar,
     autenticar,
@@ -248,5 +260,6 @@ export {
     obtenerUsuariosApp,
     obtenerCliente,
     editarCliente,
-    eliminarCliente
+    eliminarCliente,
+    obtenerUsuarioApp
 };

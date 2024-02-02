@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { registrar, autenticar, confirmar, olvidePassword, comprobarToken, nuevoPassword, perfil, obtenerColaboradores, obtenerLideres,
-    obtenerClientes, obtenerUsuariosApp, obtenerCliente, editarCliente, eliminarCliente } from "../controllers/usuarioController.js";
+    obtenerClientes, obtenerUsuariosApp, obtenerCliente, editarCliente, eliminarCliente, obtenerUsuarioApp } from "../controllers/usuarioController.js";
 
 import checkAuth from "../middleware/checkAuth.js";
 
@@ -14,6 +14,7 @@ router.route('/clientes/:id')
         .put(checkAuth, editarCliente)
         .delete(checkAuth, eliminarCliente)
 router.get('/', checkAuth, obtenerUsuariosApp)
+router.get('/usuario/:id', obtenerUsuarioApp)
 router.post('/', registrar);
 router.post('/login', autenticar);
 router.get('/confirmar/:token', confirmar);
