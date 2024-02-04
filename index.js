@@ -59,6 +59,18 @@ io.on('connection', (socket)=>{
         socket.join(proyecto);
     });
 
+    socket.on ('nuevo proyecto', proyecto=>{
+        socket.emit('proyecto agregado', proyecto)
+    })
+
+    socket.on('actualizar proyecto', proyecto => {
+        socket.emit('proyecto actualizado', proyecto)
+    })
+
+    socket.on('eliminar proyecto', proyecto => {
+        socket.emit('proyecto eliminado', proyecto)
+    })
+    
     socket.on('nueva tarea', tarea=>{
         const proyecto = tarea.proyecto;
         socket.emit('tarea agregada', tarea)
