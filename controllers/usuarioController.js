@@ -246,6 +246,49 @@ const obtenerUsuarioApp = async (req, res) => {
     res.json(usuarioApp)
 }
 
+//Editar usuario app
+const editarUsuarioApp = async (req, res) => {
+    const {id} = req.params;
+    const usuario = await Usuario.findById(id)
+    if(!usuario){
+        const error = new Error("No encontrado")
+        return res.status(404).json({msg: error.message});
+    }
+
+    usuario.nombre = req.body.nombre || usuario.nombre;
+    usuario.email = req.body.email || usuario.email;
+    usuario.telefono = req.body.telefono || usuario.telefono;
+    usuario.cargo = req.body.cargo || usuario.cargo;
+    usuario.fechaIngreso = req.body.fechaIngreso || usuario.fechaIngreso;
+    usuario.identificacion = req.body.identificacion || usuario.identificacion;
+    usuario.token = req.body.token || usuario.token;
+    usuario.confirmado = req.body.confirmado || usuario.confirmado;
+    usuario.password = req.body.password || usuario.password
+
+    try {
+        const usuarioAlmacenado = await usuario.save();
+        res.json(usuarioAlmacenado)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//Eliminar usuario APP
+const eliminarUsuarioApp = async (req, res) => {
+    const {id} = req.params;
+
+    const usuario = await Usuario.findById(id)
+    if(!usuario){
+        const error = new Error("No encontrado")
+        return res.status(404).json({msg: error.message});
+    }
+    try {
+        await usuario.deleteOne();
+        res.json({msg: "Usuario Eliminado"})
+    } catch (error) {
+        console.log(error);
+    }
+}
 export {
     registrar,
     autenticar,
@@ -261,5 +304,7 @@ export {
     obtenerCliente,
     editarCliente,
     eliminarCliente,
-    obtenerUsuarioApp
+    obtenerUsuarioApp,
+    editarUsuarioApp,
+    eliminarUsuarioApp
 };
